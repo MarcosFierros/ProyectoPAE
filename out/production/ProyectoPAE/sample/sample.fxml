@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<StackPane alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+
+   <children>
+      <ImageView fitHeight="900.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" smooth="false" visible="false">
+         <image>
+            <Image url="@../images/Diseño.png" />
+         </image>
+      </ImageView>
+
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <VBox alignment="TOP_RIGHT" prefHeight="228.0" prefWidth="1500.0" BorderPane.alignment="CENTER">
+
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="1500.0">
+
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0" />
+                        <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <JFXButton alignment="CENTER" onAction="#minimizeButtonAction" prefHeight="41.0" prefWidth="55.0">
+                                 <graphic>
+                                    <MaterialDesignIconView glyphName="MINUS" size="20" />
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton alignment="CENTER" onAction="#maximizeButtonAction" prefHeight="41.0" prefWidth="55.0">
+                                 <graphic>
+                                    <MaterialDesignIconView glyphName="CROP_SQUARE" size="20" />
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton alignment="CENTER" onAction="#closeButtonAction" prefHeight="41.0" prefWidth="55.0">
+                                 <graphic>
+                                    <MaterialDesignIconView glyphName="CLOSE" size="20" />
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+
+                     </children>
+                  </HBox>
+
+                  <HBox alignment="CENTER" prefHeight="145.0" prefWidth="1500.0">
+
+                     <children>
+                        <Pane prefHeight="145.0" prefWidth="263.0" />
+                        <VBox alignment="CENTER_LEFT" prefHeight="145.0" prefWidth="335.0">
+
+                           <children>
+                              <Label text="CANCIÓN LABEL">
+                                 <font><Font name="Franklin Gothic Demi" size="18.0" /></font>
+                                 <VBox.margin>
+                                    <Insets bottom="13.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label text="ARTISTA LABEL">
+                                 <font>
+                                    <Font name="Franklin Gothic Book" size="15.0" />
+                                 </font></Label>
+                           </children>
+
+                        </VBox>
+                        <HBox alignment="CENTER" prefHeight="137.0" prefWidth="459.0" spacing="20.0">
+                           <children>
+                              <MaterialDesignIconView glyphName="SHUFFLE_VARIANT" size="25" wrappingWidth="40.0" />
+                              <MaterialDesignIconView glyphName="SKIP_PREVIOUS" size="25" wrappingWidth="40.0" />
+                              <MaterialDesignIconView glyphName="PAUSE" size="35" text="" wrappingWidth="40.0" />
+                              <MaterialDesignIconView glyphName="SKIP_NEXT" size="25" wrappingWidth="40.0" />
+                              <MaterialDesignIconView glyphName="REPEAT" size="25" wrappingWidth="40.0" />
+                           </children>
+                        </HBox>
+                        <Label prefHeight="21.0" prefWidth="168.0" text="TIME1 - TIME2" />
+                        <MaterialDesignIconView glyphName="VOLUME_HIGH" size="25" wrappingWidth="40.0" />
+                        <JFXSlider />
+                     </children>
+                  </HBox>
+                  <JFXProgressBar prefHeight="5.0" prefWidth="1229.0" progress="0.49" secondaryProgress="0.0" />
+               </children>
+            </VBox>
+         </top>
+         <left>
+            <VBox alignment="BOTTOM_CENTER" prefHeight="672.0" prefWidth="279.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefHeight="494.0" prefWidth="123.0" spacing="15.0">
+                     <VBox.margin>
+                        <Insets bottom="57.0" left="45.0" right="30.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label text="TU BIBLIOTECA" />
+                        <Line endX="100.0" startX="-100.0" />
+                        <JFXListView />
+                        <Line endX="100.0" startX="-100.0" />
+                        <JFXButton prefHeight="31.0" prefWidth="236.0" text="NUEVA PLAYLIST" />
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </VBox>
+         </left>
+         <center>
+            <VBox prefHeight="672.0" prefWidth="1203.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label prefHeight="73.0" prefWidth="335.0" text="TITULO LABEL">
+                     <font>
+                        <Font name="Tw Cen MT" size="40.0" />
+                     </font>
+                  </Label>
+                  <VBox prefHeight="546.0" prefWidth="1155.0" style="-fx-background-color: #FFFFFF;">
+                     <children>
+                        <Line startX="1124.0" />
+                        <JFXTreeTableView fx:id="treeView" prefHeight="400.0" prefWidth="1125.0" />
+                     </children>
+                     <padding>
+                        <Insets left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets right="39.0" />
+               </padding>
+            </VBox>
+         </center>
+      </BorderPane>
+      <ImageView fitHeight="224.0" fitWidth="224.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/image.jpg" />
+         </image>
+         <StackPane.margin>
+            <Insets left="48.0" top="89.0" />
+         </StackPane.margin>
+      </ImageView>
+   </children>
+</StackPane>
