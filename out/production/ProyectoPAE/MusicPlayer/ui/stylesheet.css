@@ -1,0 +1,22 @@
+#background {
+    -fx-background-color: #E6E6E6;
+}
+
+#topbar {
+    -fx-background-color: #CCCCCC;
+}
+
+#playermenu {
+    -fx-background-color: linear-gradient(#CCCCCC, #666666);
+}
+
+.windowButton {
+    -webkit-fx-faint-focus-color: #FEFEFE;
+}
+
+#mainimage {
+    -fx-border-color: #FFFFFF ;
+    -fx-border-insets:3;
+    -fx-border-radius:7;
+    -fx-border-width:1;
+}

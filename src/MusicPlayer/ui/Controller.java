@@ -1,5 +1,6 @@
-package sample;
+package MusicPlayer.ui;
 
+import MusicPlayer.Song;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
