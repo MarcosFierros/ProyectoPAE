@@ -4,6 +4,8 @@ import MusicPlayer.Player;
 import MusicPlayer.Song;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 
+import com.jfoenix.controls.JFXProgressBar;
+import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -15,7 +17,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -30,6 +35,13 @@ public class Controller implements Initializable {
 
     @FXML private JFXTreeTableView<Song> treeView;
     @FXML private MaterialDesignIconView playPauseIcon;
+    @FXML private Label cancionLabel;
+    @FXML private Label artistaLabel;
+    @FXML private Label timeLabel;
+    @FXML private Label durationLabel;
+    @FXML private ImageView songImage;
+    @FXML private JFXProgressBar progressBar;
+    @FXML private JFXSlider volumeSlider;
     
     @FXML
     private void closeButtonAction(ActionEvent event) {
@@ -57,26 +69,32 @@ public class Controller implements Initializable {
     private void playPauseButtonAction(MouseEvent event) {
     	if(player.isPlaying()) {
     		player.pause();
-    		playPauseIcon.setGlyphName("PAUSE");
+    		playPauseIcon.setGlyphName("PLAY");
     	} else {
     		player.play();
-    		playPauseIcon.setGlyphName("PLAY");
+    		playPauseIcon.setGlyphName("PAUSE");
     	}
     	
     }
 
+    
+    @FXML
+    private void volumeSliderAction(MouseEvent event) {
+    	player.changeVolume(volumeSlider.getValue());
+    }
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        JFXTreeTableColumn<Song, String> songTitle = new JFXTreeTableColumn<>("TÃ�TULO");
+        JFXTreeTableColumn<Song, String> songTitle = new JFXTreeTableColumn<>("TÍTULO");
         songTitle.setPrefWidth(500);
 
         JFXTreeTableColumn<Song, String> songArtist = new JFXTreeTableColumn<>("ARTISTA");
         songArtist.setPrefWidth(200);
 
-        JFXTreeTableColumn<Song, String> songAlbum = new JFXTreeTableColumn<>("Ã�LBUM");
+        JFXTreeTableColumn<Song, String> songAlbum = new JFXTreeTableColumn<>("ÁLBUM");
         songAlbum.setPrefWidth(150);
 
-        JFXTreeTableColumn<Song, String> songDuration = new JFXTreeTableColumn<>("DURACIÃ“N");
+        JFXTreeTableColumn<Song, String> songDuration = new JFXTreeTableColumn<>("DURACIÓN");
         songDuration.setPrefWidth(150);
 
         ObservableList<Song> songs = FXCollections.observableArrayList();
@@ -88,7 +106,22 @@ public class Controller implements Initializable {
 
         treeView.getColumns().setAll(songTitle, songArtist, songAlbum, songDuration);
 
-        player = new Player();
-        
+        player = new Player(this);
+    }
+    
+    public void initializeSongVar() {
+        cancionLabel.setText(player.getSongName().get());
+        artistaLabel.setText(player.getSongArtist().get());
+        songImage.setImage(player.getSongImage());
+    }
+    
+    public void intializeDuration(double duration) {
+    	durationLabel.setText(player.getSongDuration().get());
+        progressBar.setSecondaryProgress(duration);
+    }
+    
+    public void initializeTime(double time) {
+    	timeLabel.setText(player.getSongTime().get());
+    	progressBar.setProgress(time);
     }
 }

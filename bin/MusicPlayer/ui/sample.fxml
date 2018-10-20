@@ -67,13 +67,13 @@
                         <VBox alignment="CENTER_LEFT" prefHeight="145.0" prefWidth="335.0">
 
                            <children>
-                              <Label text="CANCIÓN LABEL">
+                              <Label fx:id="cancionLabel" text="CANCIÓN LABEL">
                                  <font><Font name="Franklin Gothic Demi" size="18.0" /></font>
                                  <VBox.margin>
                                     <Insets bottom="13.0" />
                                  </VBox.margin>
                               </Label>
-                              <Label text="ARTISTA LABEL">
+                              <Label fx:id="artistaLabel" text="ARTISTA LABEL">
                                  <font>
                                     <Font name="Franklin Gothic Book" size="15.0" />
                                  </font></Label>
@@ -84,17 +84,22 @@
                            <children>
                               <MaterialDesignIconView glyphName="SHUFFLE_VARIANT" size="25" styleClass="player-btns" wrappingWidth="40.0" />
                               <MaterialDesignIconView glyphName="SKIP_PREVIOUS" size="25" styleClass="player-btns" wrappingWidth="40.0" />
-                              <MaterialDesignIconView fx:id="playPauseIcon" glyphName="PAUSE" onMouseClicked="#playPauseButtonAction" size="35" styleClass="player-btns" text="" wrappingWidth="40.0" />
+                              <MaterialDesignIconView fx:id="playPauseIcon" glyphName="PLAY" onMouseClicked="#playPauseButtonAction" size="35" styleClass="player-btns" wrappingWidth="40.0" />
                               <MaterialDesignIconView glyphName="SKIP_NEXT" size="25" styleClass="player-btns" wrappingWidth="40.0" />
                               <MaterialDesignIconView glyphName="REPEAT" size="25" styleClass="player-btns" wrappingWidth="40.0" />
                            </children>
                         </HBox>
-                        <Label prefHeight="21.0" prefWidth="168.0" text="TIME1 - TIME2" />
-                        <MaterialDesignIconView glyphName="VOLUME_HIGH" size="25" wrappingWidth="40.0" />
-                        <JFXSlider stylesheets="@stylesheet.css" />
+                        <Label fx:id="timeLabel" text="TIME1" />
+                        <Label text=" - " />
+                        <Label fx:id="durationLabel" text="TIME2" />
+                        <MaterialDesignIconView glyphName="VOLUME_HIGH" size="25" wrappingWidth="40.0">
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin></MaterialDesignIconView>
+                        <JFXSlider fx:id="volumeSlider" onDragDetected="#volumeSliderAction" onMouseClicked="#volumeSliderAction" onMouseDragged="#volumeSliderAction" onMousePressed="#volumeSliderAction" onMouseReleased="#volumeSliderAction" stylesheets="@stylesheet.css" />
                      </children>
                   </HBox>
-                  <JFXProgressBar prefHeight="5.0" prefWidth="1249.0" progress="0.49" secondaryProgress="0.0" style="-fx-background-color: #2CFF9C;" />
+                  <JFXProgressBar fx:id="progressBar" prefHeight="6.0" prefWidth="1237.0" progress="0.49" secondaryProgress="0.0" style="-fx-background-color: #2CFF9C;" />
                </children>
             </VBox>
          </top>
@@ -137,7 +142,7 @@
          </StackPane.margin></Pane>
       <FlowPane columnHalignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" orientation="VERTICAL" prefHeight="850.0" prefWidth="249.0" vgap="30.0">
          <children>
-            <ImageView fitHeight="224.0" fitWidth="224.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 2;">
+            <ImageView fx:id="songImage" cache="true" fitHeight="224.0" fitWidth="224.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 2;">
                <image>
                   <Image url="@../../images/default.png" />
                </image>
