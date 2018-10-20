@@ -1,5 +1,6 @@
 package MusicPlayer.ui;
 
+import MusicPlayer.Player;
 import MusicPlayer.Song;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -13,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -22,6 +24,7 @@ public class Controller implements Initializable {
 
     Stage stage;
     Scene scene;
+    Player player;
 
     @FXML
     private JFXTreeTableView<Song> treeView;
@@ -47,19 +50,29 @@ public class Controller implements Initializable {
         else
             stage.setMaximized(false);
     }
+    
+    @FXML
+    private void playPauseButtonAction(MouseEvent event) {
+    	if(player.isPlaying()) {
+    		player.pause();
+    	} else {
+    		player.play();
+    	}
+    	
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        JFXTreeTableColumn<Song, String> songTitle = new JFXTreeTableColumn<>("TÍTULO");
+        JFXTreeTableColumn<Song, String> songTitle = new JFXTreeTableColumn<>("TÃ�TULO");
         songTitle.setPrefWidth(500);
 
         JFXTreeTableColumn<Song, String> songArtist = new JFXTreeTableColumn<>("ARTISTA");
         songArtist.setPrefWidth(200);
 
-        JFXTreeTableColumn<Song, String> songAlbum = new JFXTreeTableColumn<>("ÁLBUM");
+        JFXTreeTableColumn<Song, String> songAlbum = new JFXTreeTableColumn<>("Ã�LBUM");
         songAlbum.setPrefWidth(150);
 
-        JFXTreeTableColumn<Song, String> songDuration = new JFXTreeTableColumn<>("DURACIÓN");
+        JFXTreeTableColumn<Song, String> songDuration = new JFXTreeTableColumn<>("DURACIÃ“N");
         songDuration.setPrefWidth(150);
 
         ObservableList<Song> songs = FXCollections.observableArrayList();
@@ -71,5 +84,7 @@ public class Controller implements Initializable {
 
         treeView.getColumns().setAll(songTitle, songArtist, songAlbum, songDuration);
 
+        player = new Player();
+        
     }
 }
