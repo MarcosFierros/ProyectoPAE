@@ -2,6 +2,8 @@ package MusicPlayer.ui;
 
 import MusicPlayer.Player;
 import MusicPlayer.Song;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -26,9 +28,9 @@ public class Controller implements Initializable {
     Scene scene;
     Player player;
 
-    @FXML
-    private JFXTreeTableView<Song> treeView;
-
+    @FXML private JFXTreeTableView<Song> treeView;
+    @FXML private MaterialDesignIconView playPauseIcon;
+    
     @FXML
     private void closeButtonAction(ActionEvent event) {
         scene = ((Button)event.getSource()).getScene();
@@ -55,8 +57,10 @@ public class Controller implements Initializable {
     private void playPauseButtonAction(MouseEvent event) {
     	if(player.isPlaying()) {
     		player.pause();
+    		playPauseIcon.setGlyphName("PAUSE");
     	} else {
     		player.play();
+    		playPauseIcon.setGlyphName("PLAY");
     	}
     	
     }
