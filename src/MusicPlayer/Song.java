@@ -26,7 +26,35 @@ public class Song extends RecursiveTreeObject<Song> {
         this.duration = new SimpleStringProperty(duration);
     }
     
-    public void setTitle(StringProperty title) {
+    public StringProperty getTitle() {
+		return title;
+	}
+
+	public StringProperty getAlbum() {
+		return album;
+	}
+
+	public void setAlbum(StringProperty album) {
+		this.album = album;
+	}
+
+	public StringProperty getArtist() {
+		return artist;
+	}
+
+	public StringProperty getTime() {
+		return time;
+	}
+
+	public StringProperty getDuration() {
+		return duration;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setTitle(StringProperty title) {
     	this.title = title;
     }
     
