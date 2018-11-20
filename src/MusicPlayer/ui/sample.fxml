@@ -85,7 +85,7 @@
                               <MaterialDesignIconView glyphName="SHUFFLE_VARIANT" size="25" styleClass="player-btns" wrappingWidth="40.0" />
                               <MaterialDesignIconView glyphName="SKIP_PREVIOUS" size="25" styleClass="player-btns" wrappingWidth="40.0" />
                               <MaterialDesignIconView fx:id="playPauseIcon" glyphName="PLAY" onMouseClicked="#playPauseButtonAction" size="35" styleClass="player-btns" wrappingWidth="40.0" />
-                              <MaterialDesignIconView glyphName="SKIP_NEXT" size="25" styleClass="player-btns" wrappingWidth="40.0" />
+                              <MaterialDesignIconView glyphName="SKIP_NEXT" onMouseClicked="#skipNextButtonAction" size="25" styleClass="player-btns" wrappingWidth="40.0" />
                               <MaterialDesignIconView glyphName="REPEAT" size="25" styleClass="player-btns" wrappingWidth="40.0" />
                            </children>
                         </HBox>

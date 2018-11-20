@@ -1,8 +1,12 @@
 package MusicPlayer;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
+
+import com.sun.org.apache.xalan.internal.xsltc.dom.SortingIterator;
 
 import MusicPlayer.ui.Controller;
 import javafx.animation.Animation;
@@ -10,7 +14,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -23,13 +29,15 @@ public class Player {
 	
 	private MediaPlayer mediaPlayer;
 	private boolean isPlaying;
+	 Player play;
 	private Media media;
 	public Song song;
-	
+	 Path mypath= Paths.get("ListaMusica.txt");
 	private Controller controller;
+	private Timeline timeline;
 	
-	public Player(Controller controller) {
-		media = new Media(Paths.get("Souk Eye.mp3").toUri().toString());
+	public Player(Controller controller, String cancion) {
+		media = new Media(Paths.get(cancion).toUri().toString());
 		media.getMetadata().addListener(new MapChangeListener<String, Object>() {
 
 			@Override
@@ -64,8 +72,9 @@ public class Player {
 		
 		this.controller = controller;
 		song = new Song();
+		 
 		
-		final Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(.1), new EventHandler() {
+		timeline = new Timeline(new KeyFrame(Duration.seconds(.1), new EventHandler() {
 
 			@Override
 			public void handle(Event event) {
@@ -76,14 +85,26 @@ public class Player {
 				LocalTime formatedtime = LocalTime.of(0, (int) time.toMinutes(), (int) (time.toSeconds() - (int) time.toMinutes()*60));
 				song.setTime(new SimpleStringProperty(formatedtime.format(format)));
 				controller.initializeTime(1/duration.toSeconds()*time.toSeconds());
+				if(duration.toSeconds()==time.toSeconds()&&duration.toSeconds()>1){
+					controller.NextSong();
+				}
+				
 			}
 			
 		} ));
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
-		
+			
 	}
 	
+	public void stopTimeline() {
+		timeline.stop();
+	}
+	
+	public void setAutoPlay(boolean b) {
+		mediaPlayer.setAutoPlay(b);
+	}
+
 	public void play() {
 		mediaPlayer.play();
 		isPlaying = true;
@@ -122,8 +143,6 @@ public class Player {
 		mediaPlayer.setVolume(volume/100);
 	}
 	private void handleMetadata(String key, Object value) {
-		System.out.println(key+ "-" + value.toString());
-
 		if(key.equals("title")) {
 			song.setTitle(new SimpleStringProperty(value.toString()));
 			controller.initializeSongVar();
@@ -137,3 +156,4 @@ public class Player {
 	
 	
 }
+

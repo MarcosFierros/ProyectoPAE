@@ -24,15 +24,29 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
 
+
+public class Controller implements Initializable {
+	private Iterator<File> songIterator;
     Stage stage;
     Scene scene;
     Player player;
+    Path mypath= Paths.get("ListaMusica.txt");
+    
+    ArrayList<File> musicFiles;
 
+	
     @FXML private JFXTreeTableView<Song> treeView;
     @FXML private MaterialDesignIconView playPauseIcon;
     @FXML private Label cancionLabel;
@@ -77,10 +91,14 @@ public class Controller implements Initializable {
     	
     }
 
-    
     @FXML
     private void volumeSliderAction(MouseEvent event) {
     	player.changeVolume(volumeSlider.getValue());
+    }
+
+    @FXML
+    private void skipNextButtonAction(MouseEvent event) {
+    	NextSong();
     }
     
     @Override
@@ -105,10 +123,30 @@ public class Controller implements Initializable {
         treeView.setEditable(true);
 
         treeView.getColumns().setAll(songTitle, songArtist, songAlbum, songDuration);
-
-        player = new Player(this);
+        
+        musicFiles = new ArrayList<>();
+        GetMusicFiles();
+        System.out.println(musicFiles.toString());
+        songIterator = musicFiles.iterator();
+        player = new Player(this, songIterator.next().getPath());
+       
     }
     
+    public void NextSong() {
+    	System.gc();
+    	player.stopTimeline();
+    	if(songIterator.hasNext()) {
+	    	player= new Player(this, songIterator.next().getPath());
+	    	player.setAutoPlay(true);
+    	}
+    	else {
+    		songIterator = musicFiles.iterator();
+    		player= new Player(this, songIterator.next().getPath());
+    		player.setAutoPlay(false);
+    	}
+    }
+    
+     
     public void initializeSongVar() {
         cancionLabel.setText(player.getSongName().get());
         artistaLabel.setText(player.getSongArtist().get());
@@ -121,7 +159,25 @@ public class Controller implements Initializable {
     }
     
     public void initializeTime(double time) {
+    	
     	timeLabel.setText(player.getSongTime().get());
     	progressBar.setProgress(time);
     }
+    
+   public void GetMusicFiles() {
+	   
+	   File folder = new File("C:\\Music");
+		if (folder.isDirectory())
+		{
+		  // you can get all the names
+		  //String[] fileNames = folder.list();
+
+		  // you can get directly files objects
+		  File[] files = folder.listFiles();
+		  for(File f: files)
+			  musicFiles.add(f);
+			  System.out.println();
+		}
+	   
+   }
 }
