@@ -56,7 +56,7 @@ public class Player {
 				DateTimeFormatter format = DateTimeFormatter.ofPattern("mm:ss");
 				Duration duration = media.getDuration();
 				LocalTime time = LocalTime.of(0, (int) duration.toMinutes(), (int) (duration.toSeconds() - (int) duration.toMinutes()*60));
-				song.setDuration(new SimpleStringProperty(time.format(format)));
+				song.setDuration(time.format(format));
 				controller.intializeDuration(duration.toSeconds());
 			}
 		});
@@ -74,7 +74,7 @@ public class Player {
 				Duration duration = media.getDuration();
 				Duration time = mediaPlayer.getCurrentTime();
 				LocalTime formatedtime = LocalTime.of(0, (int) time.toMinutes(), (int) (time.toSeconds() - (int) time.toMinutes()*60));
-				song.setTime(new SimpleStringProperty(formatedtime.format(format)));
+				song.setTime(formatedtime.format(format));
 				controller.initializeTime(1/duration.toSeconds()*time.toSeconds());
 			}
 			
@@ -125,10 +125,10 @@ public class Player {
 		System.out.println(key+ "-" + value.toString());
 
 		if(key.equals("title")) {
-			song.setTitle(new SimpleStringProperty(value.toString()));
+			song.setTitle(value.toString());
 			controller.initializeSongVar();
 		 } else if (key.equals("artist")) {
-		    song.setArtist(new SimpleStringProperty(value.toString()));
+		    song.setArtist(value.toString());
 		 } else if (key.equals("image")) {
 		     song.setImage((Image) value);
 		 }

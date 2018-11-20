@@ -115,7 +115,7 @@ public class Controller implements Initializable {
         TreeItem<Song> prueba= new TreeItem<Song>(player.song);
         TreeItem<Song> prueba2= new TreeItem<Song>(new Song("titulo1","2album","3artista","4duracion"));
         
-        root.getChildren().setAll(prueba,prueba2);
+        root.getChildren().setAll(prueba,prueba2,prueba2,prueba2,prueba2,prueba2,prueba2,prueba2,prueba2,prueba2,prueba2,prueba2);
         
         treeView.getColumns().setAll(songTitle, songArtist, songAlbum, songDuration);
         songTitle.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getTitle());

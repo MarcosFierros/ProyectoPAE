@@ -17,6 +17,11 @@ public class Song extends RecursiveTreeObject<Song> {
     Image image;
     
     public Song() {
+        this.title = new SimpleStringProperty();
+        this.album = new SimpleStringProperty();
+        this.artist = new SimpleStringProperty();
+        this.duration = new SimpleStringProperty();
+        this.time = new SimpleStringProperty();
     }
 
     public Song(String title, String album, String artist, String duration){
@@ -24,6 +29,7 @@ public class Song extends RecursiveTreeObject<Song> {
         this.album = new SimpleStringProperty(album);
         this.artist = new SimpleStringProperty(artist);
         this.duration = new SimpleStringProperty(duration);
+        this.time = new SimpleStringProperty("");
     }
     
     public StringProperty getTitle() {
@@ -34,8 +40,8 @@ public class Song extends RecursiveTreeObject<Song> {
 		return album;
 	}
 
-	public void setAlbum(StringProperty album) {
-		this.album = album;
+	public void setAlbum(String album) {
+		this.album.set(album);
 	}
 
 	public StringProperty getArtist() {
@@ -54,20 +60,21 @@ public class Song extends RecursiveTreeObject<Song> {
 		return image;
 	}
 
-	public void setTitle(StringProperty title) {
-    	this.title = title;
+	public void setTitle(String title) {
+    	this.title.set(title);
     }
     
-    public void setArtist(StringProperty artist) {
-    	this.artist = artist;
+    public void setArtist(String artist) {
+    	this.artist.set(artist);;
     }
     
-    public void setTime(StringProperty time) {
-		this.time = time;
+    public void setTime(String time) {
+    	System.out.println(time);
+		this.time.set(time);;
 	}
     
-    public void setDuration(StringProperty duration) {
-    	this.duration = duration;
+    public void setDuration(String duration) {
+    	this.duration.set(duration);;
     }
     
     public void setImage(Image image) {
