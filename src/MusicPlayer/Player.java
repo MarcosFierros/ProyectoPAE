@@ -28,8 +28,8 @@ public class Player {
 	
 	private Controller controller;
 	
-	public Player(Controller controller) {
-		media = new Media(Paths.get("Souk Eye.mp3").toUri().toString());
+	public Player(Controller controller, String source) {
+		media = new Media(Paths.get(source).toUri().toString());
 		media.getMetadata().addListener(new MapChangeListener<String, Object>() {
 
 			@Override
@@ -48,6 +48,7 @@ public class Player {
 				
 			}
 		});
+		
 		mediaPlayer.setOnReady(new Runnable() {
 			
 			@Override
@@ -121,6 +122,7 @@ public class Player {
 	public void changeVolume(double volume) {
 		mediaPlayer.setVolume(volume/100);
 	}
+	
 	private void handleMetadata(String key, Object value) {
 		System.out.println(key+ "-" + value.toString());
 

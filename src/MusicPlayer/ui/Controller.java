@@ -106,7 +106,7 @@ public class Controller implements Initializable {
 
         treeView.getColumns().setAll(songTitle, songArtist, songAlbum, songDuration);
 
-        player = new Player(this);
+        player = new Player(this, "Souk Eye.mp3");
     }
     
     public void initializeSongVar() {

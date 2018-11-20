@@ -2,10 +2,10 @@ package MusicPlayer;
 
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class Song extends RecursiveTreeObject<Song> {
 
