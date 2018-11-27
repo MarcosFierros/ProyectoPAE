@@ -69,8 +69,7 @@ public class Song extends RecursiveTreeObject<Song> {
     }
     
     public void setTime(String time) {
-    	System.out.println(time);
-		this.time.set(time);;
+		this.time.set(time);
 	}
     
     public void setDuration(String duration) {
