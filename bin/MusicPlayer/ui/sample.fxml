@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
@@ -19,7 +20,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MusicPlayer.ui.Controller">
+<StackPane fx:id="stackPane" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MusicPlayer.ui.Controller">
 
    <children>
       <ImageView fitHeight="900.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" smooth="false" visible="false">
@@ -119,7 +120,6 @@
                   </Label>
                   <VBox prefHeight="567.0" style="-fx-background-color: #ffffff;">
                      <children>
-                        <Line startX="1124.0" />
                         <JFXTreeTableView fx:id="treeView" prefHeight="400.0" prefWidth="1125.0" style="-fx-background-color: #FFFFFF;" />
                      </children>
                      <padding>
@@ -147,17 +147,22 @@
                   <Image url="@../../images/default.png" />
                </image>
             </ImageView>
-            <VBox prefWidth="123.0" spacing="15.0" style="-fx-background-color: #ffffff;">
+            <VBox prefHeight="567.0" prefWidth="123.0" spacing="15.0" style="-fx-background-color: #ffffff;">
                <children>
                   <Label text="TU BIBLIOTECA" />
                   <Line endX="100.0" startX="-100.0" stroke="#2cff9c" strokeWidth="2.0" />
-                  <JFXListView />
+                  <JFXListView fx:id="playListView" prefHeight="425.0" prefWidth="202.0" />
                   <Line endX="100.0" startX="-100.0" stroke="#2cff9c" strokeWidth="2.0" />
-                  <JFXButton id="btn" fx:id="playlistmenu" contentDisplay="CENTER" prefHeight="31.0" prefWidth="236.0" stylesheets="@stylesheet.css" text="NUEVA PLAYLIST" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </JFXButton>
+                  <StackPane>
+                     <children>
+                        <JFXTextField fx:id="newPalylistTF" promptText="Nombre de Playlist" visible="false" />
+                        <JFXButton id="btn" fx:id="playlistmenu" contentDisplay="CENTER" onAction="#createNewPlaylist" prefHeight="31.0" prefWidth="236.0" stylesheets="@stylesheet.css" text="NUEVA PLAYLIST" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </StackPane>
                </children>
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
