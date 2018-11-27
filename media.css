@@ -1,0 +1,15 @@
+
+.button {
+	-fx-background-color: darkblue;
+	-fx-text-fill: white;
+	-fx-border-width: 5;
+}
+
+.pane {
+	-fx-padding: 10;
+	-fx-border-style: solid inside;
+	-fx-border-width: 2;
+	-fx-border-insets: 5;
+	-fx-border-radius: 5;
+	-fx-border-color: blue;
+}
