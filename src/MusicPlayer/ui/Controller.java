@@ -64,9 +64,8 @@ public class Controller implements Initializable {
     
     @FXML
     private void closeButtonAction(ActionEvent event) {
-        scene = ((Button)event.getSource()).getScene();
         stage = (Stage) scene.getWindow();
-        stage.close();
+        stage.close();    
     }
 
     @FXML
@@ -103,7 +102,7 @@ public class Controller implements Initializable {
     
     @FXML
     private void createNewPlaylist(ActionEvent event) {
-    	
+    	    	
     	JFXDialogLayout content= new JFXDialogLayout();
         content.setHeading(new Text("Nueva Playlist"));
         
@@ -172,6 +171,7 @@ public class Controller implements Initializable {
         playListView.getItems().add(defalutMusicLabel);
     	playListView.requestFocus();
       
+
     }
     
     private void intializePlaylist_List() {
@@ -195,4 +195,11 @@ public class Controller implements Initializable {
     	timeLabel.setText(player.getSongTime().get());
     	progressBar.setProgress(time);
     }
+    
+    public void setScene(Scene scene) { 
+    	this.scene = scene; 
+    	scene.getStylesheets().add("resource/stylesheet_dark.css");
+    	
+    }
+    
 }
