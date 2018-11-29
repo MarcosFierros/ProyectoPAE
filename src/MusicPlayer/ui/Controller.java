@@ -224,13 +224,25 @@ public class Controller implements Initializable {
     @FXML
     private void skipNextButtonAction(MouseEvent event) {
     	prevClicked=false;
+    	player.pause();
     	NextSong();
+    	if(playPauseIcon.getGlyphName() == "PAUSE") {
+    		player.setAutoPlay(true);
+    	} else {
+    		player.setAutoPlay(false);
+    	}
     }
   
     @FXML
     private void skipPrevButtonAction(MouseEvent event) {
     	prevClicked=true;
+    	player.pause();
     	PrevSong();
+    	if(playPauseIcon.getGlyphName() == "PAUSE") {
+    		player.setAutoPlay(true);
+    	} else {
+    		player.setAutoPlay(false);
+    	}
     }
 
     
@@ -321,6 +333,11 @@ public class Controller implements Initializable {
 		}
     }
 
+    @FXML
+    private void clickTable(MouseEvent action) {
+		System.out.println(treeView.getSelectionModel().getSelectedItem().getValue().getTitle());
+    }
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
@@ -364,16 +381,21 @@ public class Controller implements Initializable {
     			if(prevClicked&&songIterator.hasNext()) {  //Error en RepeatSong al presionar PrevButton 
     				songIterator.next();
     			}
+    			
     			if(player.getSongTime().toString().equals(player.getSongDuration().toString())&&
     				songIterator.hasPrevious()) {	
     				songIterator.previous();
     				System.out.println("Repitiendo cancion #"+ songIterator.nextIndex());
+    				player= new Player(this, songIterator.next().getPath());
+    				player.setAutoPlay(true);
+    				playPauseIcon.setGlyphName("PAUSE");
+    				return;
     			}
 		
     		}
     	
 	    	player= new Player(this, songIterator.next().getPath());
-	    	player.setAutoPlay(false);
+	    	//player.setAutoPlay(true);
 	    	
     	} else {
     		if(player.isPlaying()) {
@@ -383,6 +405,8 @@ public class Controller implements Initializable {
     			if(player.getSongTime().toString().equals(player.getSongDuration().toString())) {
         			songIterator.previous();
         			player= new Player(this, songIterator.next().getPath());
+        			player.setAutoPlay(true);
+    				playPauseIcon.setGlyphName("PAUSE");
         			return;
         		}
         	} if(!randomMode)
@@ -391,11 +415,10 @@ public class Controller implements Initializable {
     			 Collections.shuffle(RandomPlaylist);
     			 songIterator=RandomPlaylist.listIterator();
     		}
-    		player= new Player(this, songIterator.next().getPath());
-    		player.setAutoPlay(false);	
+    		player= new Player(this, songIterator.next().getPath());	
     	}
-    	player.play();
-    	playPauseIcon.setGlyphName("PAUSE");
+    	
+ 
     }
 
     public void PrevSong() {
@@ -406,7 +429,7 @@ public class Controller implements Initializable {
         		playPauseIcon.setGlyphName("PLAY");
     		}
 	    	player= new Player(this, songIterator.previous().getPath());
-	    	player.setAutoPlay(false);
+	    	//player.setAutoPlay(false);
     	} else {
     		if(player.isPlaying()) {
         		player.pause();
@@ -418,11 +441,10 @@ public class Controller implements Initializable {
     			songIterator=RandomPlaylist.listIterator();
     		}
     		player= new Player(this, songIterator.next().getPath());
-    		player.setAutoPlay(false);
+    		//player.setAutoPlay(false);
     	}
-    	player.play();
-    	playPauseIcon.setGlyphName("PAUSE");
     }
+
 
     
 	@SuppressWarnings("unchecked")
@@ -455,6 +477,8 @@ public class Controller implements Initializable {
 			TreeItem<Song> song = new TreeItem<Song>(s);
 			root.getChildren().add(song);
 		}
+		
+
 		treeView.getColumns().setAll(songTitle, songArtist, songAlbum, songDuration);
 		songTitle.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getTitle());
 		songArtist.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getArtist());
@@ -469,8 +493,6 @@ public class Controller implements Initializable {
     		archivosLocales.add(player.song);
     		NextSong();
     	}
-    	player.pause();
-    	playPauseIcon.setGlyphName("PLAY");
     	playList_List.add(archivosLocales);
 	}
 

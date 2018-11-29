@@ -142,7 +142,7 @@
                   </Label>
                   <VBox prefHeight="567.0" styleClass="xBox">
                      <children>
-                        <JFXTreeTableView fx:id="treeView" prefHeight="537.0" prefWidth="1125.0" style=" -fx-padding: 10px" />
+                        <JFXTreeTableView fx:id="treeView" prefHeight="537.0" prefWidth="1125.0" style=" -fx-padding: 10px" onMouseClicked="#clickTable"/>
                      </children>
                      <padding>
                         <Insets left="15.0" right="15.0" top="15.0" />

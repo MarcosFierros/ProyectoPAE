@@ -55,6 +55,7 @@ public class Song extends RecursiveTreeObject<Song> {
 	public StringProperty getDuration() {
 		return duration;
 	}
+	
 
 	public Image getImage() {
 		return image;
