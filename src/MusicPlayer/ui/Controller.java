@@ -52,12 +52,13 @@ public class Controller implements Initializable {
 	boolean randomMode=false;
 	boolean repeatMode=false;
 	boolean draggin=false;
+	boolean prevClicked=false;
+	boolean activated=false;
 	int a=50;
-	private ListIterator<File> songIterator2;
     Stage stage;
     Scene scene;
     Player player;
-    Path mypath= Paths.get("ListaMusica.txt");
+    
     
     ArrayList<File> musicFiles;
     ArrayList<File> RandomPlaylist;
@@ -114,13 +115,23 @@ public class Controller implements Initializable {
     private void playRandomList(MouseEvent event) {
 		if(!randomMode) {
 			Collections.shuffle(RandomPlaylist);
+			
+			if(repeatMode) {
+				songIterator.previous();
+				int a=RandomPlaylist.indexOf(songIterator.next());
+				songIterator=RandomPlaylist.listIterator(a);
+			}
+			else
     		songIterator=RandomPlaylist.listIterator();
+			
+    		
+    		
     		randomMode=true;
     		shuffleIcon.setFill(Color.rgb(88,250, 172));
     	}
 		
 		else {
-			if(songIterator.hasNext()) {
+			if(songIterator.hasNext()&&songIterator.nextIndex()>=1) {
 			songIterator.previous(); //no puedo sacar el indexOf de songIterator sin previous y next
 			a=musicFiles.indexOf(songIterator.next());
 			songIterator=musicFiles.listIterator(a+1);
@@ -142,10 +153,12 @@ public class Controller implements Initializable {
 		if(!repeatMode) {
 			repeatMode=true;
 			repeatIcon.setFill(Color.rgb(88,250, 172));
+				
 		}
 		else {
 			repeatMode=false;
 			repeatIcon.setFill(Color.BLACK);
+			
 		}
 	}
 	
@@ -205,8 +218,6 @@ public class Controller implements Initializable {
     	
     	if(!repeatMode)
     	repeatIcon.setFill(Color.BLACK);
-    	songIterator.previous();
-    	songIterator.next();
     }
 
     
@@ -219,11 +230,14 @@ public class Controller implements Initializable {
 
     @FXML
     private void skipNextButtonAction(MouseEvent event) {
+    	prevClicked=false;
     	NextSong();
+ 
     }
-    
+  
     @FXML
     private void skipPrevButtonAction(MouseEvent event) {
+    	prevClicked=true;
     	PrevSong();
     }
     
@@ -268,18 +282,31 @@ public class Controller implements Initializable {
     
     public void NextSong() {
     	player.stopTimeline();
-    	if(songIterator.hasNext()||repeatMode) {
+    
+
+    	if(songIterator.hasNext()) {
     		if(player.isPlaying()) {
         		player.pause();
         		playPauseIcon.setGlyphName("PLAY");
     		}
-    		if(repeatMode&&!player.isPlaying()) {
-    			songIterator.previous();
-    			playPauseIcon.setGlyphName("PAUSE");
-    		}
+    				
+    		if(repeatMode) {
+    			
+    			if(prevClicked&&songIterator.hasNext()) {  //Error en RepeatSong al presionar PrevButton 
+    				songIterator.next();
+    			}
+    		if(player.getSongTime().toString().equals(player.getSongDuration().toString())&&
+    				songIterator.hasPrevious()) {	
+    							songIterator.previous();
+    							System.out.println("Repitiendo cancion #"+ songIterator.nextIndex());
+    											}
+    		
+    		
+    						}
+    	
     		
 	    	player= new Player(this, songIterator.next().getPath());
-	    	player.setAutoPlay(repeatMode);
+	    	player.setAutoPlay(false);
 	    	
     	}
     	else {
@@ -287,9 +314,23 @@ public class Controller implements Initializable {
         		player.pause();
         		playPauseIcon.setGlyphName("PLAY");
     		}
-    		songIterator = musicFiles.listIterator();
+    		if(repeatMode) {
+        		if(player.getSongTime().toString().equals(player.getSongDuration().toString())) {
+        			songIterator.previous();
+        			player= new Player(this, songIterator.next().getPath());
+        			return;
+        		}
+        		}
+    				if(!randomMode)
+    			songIterator=musicFiles.listIterator();
+    				
+    				else {
+    					Collections.shuffle(RandomPlaylist);
+    				songIterator=RandomPlaylist.listIterator();
+    				}
     		player= new Player(this, songIterator.next().getPath());
     		player.setAutoPlay(false);
+    		
     	}
     }
     
@@ -308,7 +349,14 @@ public class Controller implements Initializable {
         		player.pause();
         		playPauseIcon.setGlyphName("PLAY");
     		}
-    		songIterator = musicFiles.listIterator();
+    		
+    		if(!randomMode)
+    			songIterator=musicFiles.listIterator();
+    				
+    				else {
+    					Collections.shuffle(RandomPlaylist);
+    				songIterator=RandomPlaylist.listIterator();
+    				}
     		player= new Player(this, songIterator.next().getPath());
     		player.setAutoPlay(false);
     	}
