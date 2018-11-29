@@ -4,10 +4,14 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -19,7 +23,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MusicPlayer.ui.Controller">
+<StackPane fx:id="stackPane" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MusicPlayer.ui.Controller">
 
    <children>
       <ImageView fitHeight="900.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true" smooth="false" visible="false">
@@ -28,18 +32,37 @@
          </image>
       </ImageView>
 
-      <BorderPane fx:id="background" prefHeight="200.0" prefWidth="200.0" stylesheets="@stylesheet.css">
+      <BorderPane fx:id="background" prefHeight="200.0" prefWidth="200.0">
          <top>
             <VBox alignment="TOP_RIGHT" prefHeight="204.0" prefWidth="1500.0" BorderPane.alignment="CENTER">
 
                <children>
-                  <HBox fx:id="topbar" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="1500.0" stylesheets="@stylesheet.css">
+                  <HBox fx:id="topbar" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="1500.0">
 
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0" />
                         <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <JFXButton alignment="CENTER" onAction="#minimizeButtonAction" prefHeight="41.0" prefWidth="55.0" styleClass="windowButton" stylesheets="@stylesheet.css">
+                              <MenuBar prefHeight="41.0" prefWidth="133.0" styleClass="menu-bar">
+                                 <menus>
+                                    <Menu text="LEN">
+                                       <items>
+                                          <MenuItem text="EN" onAction="#changeEnglish"/>
+                                          <MenuItem text="ES" onAction="#changeSpanish"/>
+                                       </items>
+                                    </Menu>
+                                    <Menu text="TEMA">
+                                      <items>
+                                        <MenuItem text="LIGHT" onAction="#changeLight"/>
+                                        <MenuItem text="DARK" onAction="#changeDark"/>
+                                      </items>
+                                    </Menu>
+                                 </menus>
+                              </MenuBar>
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <JFXButton alignment="CENTER" onAction="#minimizeButtonAction" prefHeight="41.0" prefWidth="55.0" styleClass="windowButton">
                                  <graphic>
                                     <MaterialDesignIconView glyphName="MINUS" size="20" />
                                  </graphic>
@@ -60,7 +83,7 @@
                      </children>
                   </HBox>
 
-                  <HBox fx:id="playermenu" alignment="CENTER" prefHeight="145.0" prefWidth="1500.0" stylesheets="@stylesheet.css">
+                  <HBox fx:id="playermenu" alignment="CENTER" prefHeight="145.0" prefWidth="1500.0">
 
                      <children>
                         <Pane prefHeight="145.0" prefWidth="219.0" />
@@ -96,10 +119,10 @@
                            <HBox.margin>
                               <Insets left="50.0" />
                            </HBox.margin></MaterialDesignIconView>
-                        <JFXSlider fx:id="volumeSlider" onDragDetected="#volumeSliderAction" onMouseClicked="#volumeSliderAction" onMouseDragged="#volumeSliderAction" onMousePressed="#volumeSliderAction" onMouseReleased="#volumeSliderAction" stylesheets="@stylesheet.css" />
+                        <JFXSlider fx:id="volumeSlider" onDragDetected="#volumeSliderAction" onMouseClicked="#volumeSliderAction" onMouseDragged="#volumeSliderAction" onMousePressed="#volumeSliderAction" onMouseReleased="#volumeSliderAction"/>
                      </children>
                   </HBox>
-                  <JFXProgressBar fx:id="progressBar" prefHeight="6.0" prefWidth="1237.0" progress="0.49" secondaryProgress="0.0" style="-fx-background-color: #2CFF9C;" />
+                  <JFXProgressBar fx:id="progressBar" prefHeight="6.0" prefWidth="1237.0" progress="0.49" secondaryProgress="0.0"/>
                </children>
             </VBox>
          </top>
@@ -109,7 +132,7 @@
          <center>
             <VBox prefHeight="672.0" prefWidth="1203.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label prefHeight="99.0" prefWidth="335.0" text="TITULO LABEL">
+                  <Label prefHeight="99.0" prefWidth="335.0" text="TITULO LABEL" styleClass="text">
                      <font>
                         <Font name="Tw Cen MT" size="40.0" />
                      </font>
@@ -117,9 +140,8 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <VBox prefHeight="567.0" style="-fx-background-color: #ffffff;">
+                  <VBox prefHeight="567.0" styleClass="xBox">
                      <children>
-                        <Line startX="1124.0" />
                         <JFXTreeTableView fx:id="treeView" prefHeight="400.0" prefWidth="1125.0" style="-fx-background-color: #FFFFFF;" />
                      </children>
                      <padding>
@@ -136,7 +158,7 @@
             </VBox>
          </center>
       </BorderPane>
-      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="233.0" style="-fx-background-color: #FFFFFF;">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="233.0" styleClass="backImage">
          <StackPane.margin>
             <Insets left="30.0" top="45.0" />
          </StackPane.margin></Pane>
@@ -147,17 +169,22 @@
                   <Image url="@../../images/default.png" />
                </image>
             </ImageView>
-            <VBox prefWidth="123.0" spacing="15.0" style="-fx-background-color: #ffffff;">
+            <VBox prefHeight="567.0" prefWidth="123.0" spacing="15.0" styleClass="xBox">
                <children>
-                  <Label text="TU BIBLIOTECA" />
+                  <Label text="TU BIBLIOTECA" styleClass="text" />
                   <Line endX="100.0" startX="-100.0" stroke="#2cff9c" strokeWidth="2.0" />
-                  <JFXListView />
+                  <JFXListView fx:id="playListView" prefHeight="425.0" prefWidth="202.0" />
                   <Line endX="100.0" startX="-100.0" stroke="#2cff9c" strokeWidth="2.0" />
-                  <JFXButton id="btn" fx:id="playlistmenu" contentDisplay="CENTER" prefHeight="31.0" prefWidth="236.0" stylesheets="@stylesheet.css" text="NUEVA PLAYLIST" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </JFXButton>
+                  <StackPane>
+                     <children>
+                        <JFXTextField fx:id="newPalylistTF" promptText="Nombre de Playlist" visible="false" />
+                        <JFXButton id="btn" fx:id="playlistmenu" contentDisplay="CENTER" onAction="#createNewPlaylist" prefHeight="31.0" prefWidth="236.0" text="NUEVA PLAYLIST" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </StackPane>
                </children>
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

@@ -1,9 +1,12 @@
 package MusicPlayer;
 
+import MusicPlayer.ui.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -14,7 +17,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("ui/sample.fxml"));
+    	FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/resource/sample.fxml"));
+        StackPane root = (StackPane) fxmlloader.load();
         root.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
@@ -23,8 +27,12 @@ public class Main extends Application {
             primaryStage.setX(event.getScreenX() - xOffset);
             primaryStage.setY(event.getScreenY() - yOffset);
         });
+        
         primaryStage.initStyle(StageStyle.TRANSPARENT);
-        primaryStage.setScene(new Scene(root, 1500, 900));
+        Controller controller = (Controller) fxmlloader.getController();
+        Scene scene = new Scene(root, 1500, 900);
+        controller.setScene(scene);
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

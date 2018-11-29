@@ -1,3 +1,14 @@
+
+
+.menu-bar {
+	-fx-background-color: transparent;
+	-fx-padding: 5px;
+}
+
+.menu:hover {
+	-fx-background-color: #2CFF9C;
+}
+
 #background {
     -fx-background-color: #E6E6E6;
 }
@@ -14,11 +25,19 @@
     -webkit-fx-faint-focus-color: #FEFEFE;
 }
 
+.xBox {
+	-fx-background-color: #FFFFFF;
+}
+
 .mainimage {
     -fx-border-color: #FFFFFF ;
     -fx-border-insets:3;
     -fx-border-radius:7;
     -fx-border-width:1;
+}
+
+.backImage {
+	-fx-background-color:  #2CFF9C;
 }
 
 .player-btns {
@@ -32,6 +51,12 @@
 #btn {
     -fx-background-color: #2CFF9C;
 }
+
+
+.jfx-list-view {
+	-fx-background-color: transparent;
+}
+
 
 
 /* Styling the slider thumb */
