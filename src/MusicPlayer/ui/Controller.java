@@ -46,6 +46,7 @@ public class Controller implements Initializable {
     Stage stage;
     Scene scene;
     Player player;
+    int playListCont;
     
     ArrayList<ArrayList<Song>> playList_List = new ArrayList<>();
 
@@ -102,7 +103,7 @@ public class Controller implements Initializable {
     
     @FXML
     private void createNewPlaylist(ActionEvent event) {
-    	    	
+    	
     	JFXDialogLayout content= new JFXDialogLayout();
         content.setHeading(new Text("Nueva Playlist"));
         
@@ -117,14 +118,25 @@ public class Controller implements Initializable {
             @Override
             public void handle(ActionEvent event){
             	String playListName = newPlayListTF.getText();
-        		if(playListName.compareTo("") != 0) {
-    	    		Label playListLabel = new Label(playListName.toUpperCase());
+        		if(playListName.compareTo("") != 0) {        			
+        			playListCont++;
+        			int cont=playListCont;
+    	    		Label playListLabel = new Label(playListName.toUpperCase());    	    		
+    	    		playListLabel.addEventHandler(MouseEvent.MOUSE_PRESSED ,new EventHandler<MouseEvent>() {
+
+						@Override
+						public void handle(MouseEvent arg0) {
+							//pruebas
+							System.out.println("funciono");
+							System.out.println(cont);
+							//fin pruebas
+							playList_List.add(new ArrayList<Song>());
+							showPlayList(cont);
+						}    	    			    	    			
+    	    		});    	    		
     	    		playListView.getItems().add(playListLabel);
-    	    		newPlayListTF.setText("");
-    	    		
-    	    		
-        		}
-            	
+    	    		newPlayListTF.setText("");    	    		    	    			
+        		}            	
                 dialog.close();
             }
         });
@@ -132,47 +144,79 @@ public class Controller implements Initializable {
     	dialog.show();
     }
     
+    @FXML
+    private void changeLight(ActionEvent action) {
+    	scene.getStylesheets().clear();
+    	scene.getStylesheets().add("resource/stylesheet_light.css");
+    }
+    
+    @FXML
+    private void changeDark(ActionEvent action) {
+    	scene.getStylesheets().clear();
+    	scene.getStylesheets().add("resource/stylesheet_dark.css");
+    }
+    
+    @FXML
+    private void changeEnglish(ActionEvent action) {
+    	
+    }
+    @FXML
+    private void changeSpanish(ActionEvent action) {
+    	
+    }
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
     	player = new Player(this);
-        JFXTreeTableColumn<Song, String> songTitle = new JFXTreeTableColumn<>("TÍTULO");
-        songTitle.setPrefWidth(500);
-
-        JFXTreeTableColumn<Song, String> songArtist = new JFXTreeTableColumn<>("ARTISTA");
-        songArtist.setPrefWidth(200);
-
-        JFXTreeTableColumn<Song, String> songAlbum = new JFXTreeTableColumn<>("ÁLBUM");
-        songAlbum.setPrefWidth(150);
-
-        JFXTreeTableColumn<Song, String> songDuration = new JFXTreeTableColumn<>("DURACIÓN");
-        songDuration.setPrefWidth(150);
-
-        ObservableList<Song> songs = FXCollections.observableArrayList(); 
-        final TreeItem<Song> root = new RecursiveTreeItem<>(songs, RecursiveTreeObject::getChildren);
-        treeView.setRoot(root);
-        treeView.setShowRoot(false);
-        treeView.setEditable(true);
-
-        intializePlaylist_List();
-        
-        for(Song s : playList_List.get(0)) {
-        	TreeItem<Song> song = new TreeItem<Song>(s);
-        	root.getChildren().add(song);
-        }
-        
-        treeView.getColumns().setAll(songTitle, songArtist, songAlbum, songDuration);
-        songTitle.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getTitle());
-        songArtist.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getArtist());
-        songAlbum.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getAlbum());
-        songDuration.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getDuration());
-        
+    	playListCont=0;
+    	intializePlaylist_List();
+        showPlayList(0);
         Label defalutMusicLabel = new Label("ARCHIVOS LOCALES");
-        playListView.getItems().add(defalutMusicLabel);
-    	playListView.requestFocus();
-      
+        defalutMusicLabel.addEventHandler(MouseEvent.MOUSE_PRESSED ,new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent arg0) {
+				showPlayList(0);
+				System.out.println("funciono");
+			}
+		});
+		playListView.getItems().add(defalutMusicLabel);
+		playListView.requestFocus();
 
     }
+
+	private void showPlayList(int indice) {
+		
+		JFXTreeTableColumn<Song, String> songTitle = new JFXTreeTableColumn<>("TiTULO");
+		songTitle.setPrefWidth(500);
+		
+		JFXTreeTableColumn<Song, String> songArtist = new JFXTreeTableColumn<>("ARTISTA");
+		songArtist.setPrefWidth(200);
+		
+		JFXTreeTableColumn<Song, String> songAlbum = new JFXTreeTableColumn<>("aLBUM");
+		songAlbum.setPrefWidth(150);
+		
+		JFXTreeTableColumn<Song, String> songDuration = new JFXTreeTableColumn<>("DURACIoN");
+		songDuration.setPrefWidth(150);
+		
+		ObservableList<Song> songs = FXCollections.observableArrayList(); 
+		final TreeItem<Song> root = new RecursiveTreeItem<>(songs, RecursiveTreeObject::getChildren);
+		treeView.setRoot(root);
+		treeView.setShowRoot(false);
+		treeView.setEditable(true);
+		
+		for(Song s : playList_List.get(indice)) {
+			TreeItem<Song> song = new TreeItem<Song>(s);
+			root.getChildren().add(song);
+		}
+		
+		treeView.getColumns().setAll(songTitle, songArtist, songAlbum, songDuration);
+		songTitle.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getTitle());
+		songArtist.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getArtist());
+		songAlbum.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getAlbum());
+		songDuration.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getDuration());
+		
+	}
     
     private void intializePlaylist_List() {
     	ArrayList<Song> archivosLocales = new ArrayList<>();
@@ -198,8 +242,7 @@ public class Controller implements Initializable {
     
     public void setScene(Scene scene) { 
     	this.scene = scene; 
-    	scene.getStylesheets().add("resource/stylesheet_dark.css");
-    	
+    	scene.getStylesheets().add("resource/stylesheet_dark.css");    	
     }
     
 }
