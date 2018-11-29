@@ -25,11 +25,12 @@ public class Player {
 	private boolean isPlaying;
 	private Media media;
 	public Song song;
-
+	Player play;
+	private Timeline timeline;
 	private Controller controller;
 
-	public Player(Controller controller) {
-		media = new Media(Paths.get("Souk Eye.mp3").toUri().toString());
+	public Player(Controller controller, String cancion) {
+		media = new Media(Paths.get(cancion).toUri().toString());
 		media.getMetadata().addListener(new MapChangeListener<String, Object>() {
 
 			@Override
@@ -37,19 +38,19 @@ public class Player {
 				// TODO Auto-generated method stub
 				handleMetadata(change.getKey(), change.getValueAdded());
 			}
-
+			
 		});
 		mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setOnPlaying(new Runnable() {
-
+			
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-
+				
 			}
 		});
 		mediaPlayer.setOnReady(new Runnable() {
-
+			
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
@@ -61,11 +62,12 @@ public class Player {
 			}
 		});
 		isPlaying = false;
-
+		
 		this.controller = controller;
 		song = new Song();
-
-		final Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(.1), new EventHandler() {
+		 
+		
+		timeline = new Timeline(new KeyFrame(Duration.seconds(.1), new EventHandler() {
 
 			@Override
 			public void handle(Event event) {
@@ -76,12 +78,29 @@ public class Player {
 				LocalTime formatedtime = LocalTime.of(0, (int) time.toMinutes(), (int) (time.toSeconds() - (int) time.toMinutes()*60));
 				song.setTime(formatedtime.format(format));
 				controller.initializeTime(1/duration.toSeconds()*time.toSeconds());
+				if(duration.toSeconds()==time.toSeconds()&&duration.toSeconds()>1){
+					controller.NextSong();
+				}
+				
 			}
-
+			
 		} ));
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
+	}
 
+
+	public void changeTime(long progress) {
+		progress =(long) ((long)media.getDuration().toMillis()*progress*.01);
+		mediaPlayer.seek(Duration.millis(progress));
+	}
+
+	public void stopTimeline() {
+		timeline.stop();
+	}
+
+	public void setAutoPlay(boolean b) {
+		mediaPlayer.setAutoPlay(b);
 	}
 
 	public void play() {
@@ -131,7 +150,8 @@ public class Player {
 		    song.setArtist(value.toString());
 		 } else if (key.equals("image")) {
 		     song.setImage((Image) value);
-		 }
+		 } else if(key.equals("album"))
+			 song.setAlbum(value.toString());
 	}
 
 
