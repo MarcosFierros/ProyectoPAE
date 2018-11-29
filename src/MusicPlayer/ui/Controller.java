@@ -1,16 +1,16 @@
 package MusicPlayer.ui;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.ResourceBundle;
-import java.util.stream.IntStream;
 import java.util.ListIterator;
-
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -24,6 +24,7 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
+import MusicPlayer.Main;
 import MusicPlayer.Player;
 import MusicPlayer.Song;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
@@ -32,29 +33,31 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.print.PageLayout;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Controller implements Initializable {
 
     Stage stage;
     Scene scene;
     Player player;
-    
+	FXMLLoader fxmlloader;
+	Main main;
+	
     int playListCont;
     private ListIterator<File> songIterator;
 	boolean randomMode=false;
@@ -235,15 +238,18 @@ public class Controller implements Initializable {
     private void createNewPlaylist(ActionEvent event) {
 
     	JFXDialogLayout content= new JFXDialogLayout();
-        content.setHeading(new Text("Nueva Playlist"));
+    	Text text = new Text();
+    	text.textProperty().bind(I18N.createStringBinding("new_playlist"));
+        content.setHeading(text);
 
         VBox vbox = new VBox();
         JFXTextField newPlayListTF = new JFXTextField();
-        newPlayListTF.setPromptText("NOMBRE");
+        newPlayListTF.promptTextProperty().bind(I18N.createStringBinding("name"));
         vbox.getChildren().add(newPlayListTF);
         content.setBody(vbox);;
         JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        JFXButton button = new JFXButton("ACEPTAR");
+        JFXButton button = new JFXButton();
+        button.textProperty().bind(I18N.createStringBinding("accept"));
         button.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
@@ -252,6 +258,8 @@ public class Controller implements Initializable {
         			playListCont++;
         			int cont=playListCont;
     	    		Label playListLabel = new Label(playListName.toUpperCase());
+    	    		playListLabel.getStyleClass().add("listLabel");
+    	            playListLabel.setFont(new Font("System Bold", 15));
     	    		playListLabel.addEventHandler(MouseEvent.MOUSE_PRESSED ,new EventHandler<MouseEvent>() {
 
 						@Override
@@ -284,17 +292,38 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void changeEnglish(ActionEvent action) {
+    private void changeEnglish(ActionEvent action)  {
+    	I18N.setResourceBundlePath("resource.i18n.strings_us_en");
+    	I18N.setLocale(new Locale("en", "us"));
+		try {
+			player.pause();
+			stage.close();
+			main.start(new Stage());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
     }
+    
     @FXML
     private void changeSpanish(ActionEvent action) {
-
+    	I18N.setResourceBundlePath("resource.i18n.strings_mx_es");
+    	I18N.setLocale(new Locale("es", "mx"));
+    	fxmlloader.setResources(I18N.getResources());
+    	try {
+    		player.pause();
+    		stage.close();
+			main.start(new Stage());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+    	
         musicFiles = new ArrayList<>();
         GetMusicFiles();
         RandomPlaylist= new ArrayList<>();
@@ -306,19 +335,22 @@ public class Controller implements Initializable {
     	playListCont=0;
     	intializePlaylist_List();
         showPlayList(0);
-        Label defalutMusicLabel = new Label("ARCHIVOS LOCALES");
+        Label defalutMusicLabel = new Label();   
+        defalutMusicLabel.textProperty().bind(I18N.createStringBinding("local_archives"));
+        defalutMusicLabel.getStyleClass().add("listLabel");
+        defalutMusicLabel.setFont(new Font("System Bold", 15));
+        System.out.println(defalutMusicLabel.getFont());
         tituloLabel.setText(defalutMusicLabel.getText());
         defalutMusicLabel.addEventHandler(MouseEvent.MOUSE_PRESSED ,new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent arg0) {
 				tituloLabel.setText(defalutMusicLabel.getText());
 				showPlayList(0);
-				System.out.println("funciono");
 			}
 		});
 		playListView.getItems().add(defalutMusicLabel);
 		playListView.requestFocus();
-
+		
     }
 
     public void NextSong() {
@@ -362,6 +394,8 @@ public class Controller implements Initializable {
     		player= new Player(this, songIterator.next().getPath());
     		player.setAutoPlay(false);	
     	}
+    	player.play();
+    	playPauseIcon.setGlyphName("PAUSE");
     }
 
     public void PrevSong() {
@@ -386,21 +420,29 @@ public class Controller implements Initializable {
     		player= new Player(this, songIterator.next().getPath());
     		player.setAutoPlay(false);
     	}
+    	player.play();
+    	playPauseIcon.setGlyphName("PAUSE");
     }
 
     
+	@SuppressWarnings("unchecked")
 	private void showPlayList(int indice) {
 
-		JFXTreeTableColumn<Song, String> songTitle = new JFXTreeTableColumn<>("TÍTULO");
-		songTitle.setPrefWidth(500);
+		JFXTreeTableColumn<Song, String> songTitle = new JFXTreeTableColumn<>();
+        
+		songTitle.textProperty().bind(I18N.createStringBinding("title"));
+		songTitle.setPrefWidth(604);
 
-		JFXTreeTableColumn<Song, String> songArtist = new JFXTreeTableColumn<>("ARTISTA");
+		JFXTreeTableColumn<Song, String> songArtist = new JFXTreeTableColumn<>();
+		songArtist.textProperty().bind(I18N.createStringBinding("artist"));
 		songArtist.setPrefWidth(200);
 
-		JFXTreeTableColumn<Song, String> songAlbum = new JFXTreeTableColumn<>("ÁLBUM");
+		JFXTreeTableColumn<Song, String> songAlbum = new JFXTreeTableColumn<>();		
+		songAlbum.textProperty().bind(I18N.createStringBinding("album"));
 		songAlbum.setPrefWidth(150);
 
-		JFXTreeTableColumn<Song, String> songDuration = new JFXTreeTableColumn<>("DURACIÓN");
+		JFXTreeTableColumn<Song, String> songDuration = new JFXTreeTableColumn<>();
+		songDuration.textProperty().bind(I18N.createStringBinding("duration"));
 		songDuration.setPrefWidth(150);
 
 		ObservableList<Song> songs = FXCollections.observableArrayList();
@@ -413,7 +455,6 @@ public class Controller implements Initializable {
 			TreeItem<Song> song = new TreeItem<Song>(s);
 			root.getChildren().add(song);
 		}
-
 		treeView.getColumns().setAll(songTitle, songArtist, songAlbum, songDuration);
 		songTitle.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getTitle());
 		songArtist.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getArtist());
@@ -424,11 +465,12 @@ public class Controller implements Initializable {
 
     private void intializePlaylist_List() {
     	ArrayList<Song> archivosLocales = new ArrayList<>();
-    	for(File f: musicFiles) {
+    	for(@SuppressWarnings("unused") File f: musicFiles) {
     		archivosLocales.add(player.song);
     		NextSong();
     	}
-    
+    	player.pause();
+    	playPauseIcon.setGlyphName("PLAY");
     	playList_List.add(archivosLocales);
 	}
 
@@ -453,6 +495,10 @@ public class Controller implements Initializable {
     	scene.getStylesheets().add("resource/stylesheet_dark.css");
     }
     
+    public void setFXMLLoader(FXMLLoader fxmlLoader) {
+    	this.fxmlloader = fxmlLoader;
+    }
+    
     public void GetMusicFiles() {
  	   
  	   File folder = new File("C:\\Music");
@@ -463,6 +509,14 @@ public class Controller implements Initializable {
  			  musicFiles.add(f);
  		}
  	   
+    }
+    
+    public void setStage(Stage stage) {
+    	this.stage = stage;
+    }
+    
+    public void setMain(Main main) {
+    	this.main = main;
     }
 
 

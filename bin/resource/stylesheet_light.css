@@ -58,6 +58,15 @@
 }
 
 
+.jfx-list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #2CFF9C ;
+    -fx-text-fill: white; 
+}
+
+.jfx-list-cell { 
+	-fx-background-color: transparent;
+}
+
 
 /* Styling the slider thumb */
 .jfx-slider > .thumb {

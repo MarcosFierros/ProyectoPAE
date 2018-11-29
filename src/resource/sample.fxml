@@ -50,7 +50,7 @@
                                           <MenuItem text="ES" onAction="#changeSpanish"/>
                                        </items>
                                     </Menu>
-                                    <Menu text="TEMA">
+                                    <Menu text="%theme">
                                       <items>
                                         <MenuItem text="LIGHT" onAction="#changeLight"/>
                                         <MenuItem text="DARK" onAction="#changeDark"/>
@@ -142,7 +142,7 @@
                   </Label>
                   <VBox prefHeight="567.0" styleClass="xBox">
                      <children>
-                        <JFXTreeTableView fx:id="treeView" prefHeight="537.0" prefWidth="1125.0" style="-fx-background-color: #FFFFFF;" />
+                        <JFXTreeTableView fx:id="treeView" prefHeight="537.0" prefWidth="1125.0" style=" -fx-padding: 10px" />
                      </children>
                      <padding>
                         <Insets left="15.0" right="15.0" top="15.0" />
@@ -164,21 +164,24 @@
          </StackPane.margin></Pane>
       <FlowPane columnHalignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" orientation="VERTICAL" prefHeight="850.0" prefWidth="249.0" vgap="30.0">
          <children>
-            <ImageView fx:id="songImage" cache="true" fitHeight="224.0" fitWidth="224.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 2;">
+            <ImageView fx:id="songImage" cache="true" fitHeight="224.0" fitWidth="224.0" pickOnBounds="true" preserveRatio="false" style="-fx-border-radius: 2;">
                <image>
                   <Image url="@../../images/default.png" />
                </image>
             </ImageView>
             <VBox prefHeight="567.0" prefWidth="123.0" spacing="15.0" styleClass="xBox">
                <children>
-                  <Label text="TU BIBLIOTECA" styleClass="text" />
+                  <Label text="%biblioteca" styleClass="text" >
+                   <font>
+                   	<Font name="System Bold" size="15.0" />
+                    </font></Label>
                   <Line endX="100.0" startX="-100.0" stroke="#2cff9c" strokeWidth="2.0" />
                   <JFXListView fx:id="playListView" prefHeight="425.0" prefWidth="202.0" />
                   <Line endX="100.0" startX="-100.0" stroke="#2cff9c" strokeWidth="2.0" />
                   <StackPane>
                      <children>
                         <JFXTextField fx:id="newPalylistTF" promptText="Nombre de Playlist" visible="false" />
-                        <JFXButton id="btn" fx:id="playlistmenu" contentDisplay="CENTER" onAction="#createNewPlaylist" prefHeight="31.0" prefWidth="236.0" text="NUEVA PLAYLIST" textFill="WHITE">
+                        <JFXButton id="btn" fx:id="playlistmenu" contentDisplay="CENTER" onAction="#createNewPlaylist" prefHeight="31.0" prefWidth="236.0" text="%new_playlist" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>

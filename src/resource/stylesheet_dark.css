@@ -1,3 +1,7 @@
+.listLabel {
+	-fx-text-fill: #FFFFFF;
+}
+
 .text{
 	-fx-text-fill: #FFFFFF;
 }
@@ -62,13 +66,11 @@
     -fx-background-color: #2CFF9C ;
     -fx-text-fill: white; 
 }
-.jfx-list-cell { -fx-text-fill: black; /* 5 */ }
-.jfx-list-cell:odd { -fx-background-color: white; /* 1 */ }
-.jfx-list-cell:even { -fx-background-color: #8f8; /* for information */ }
-.jfx-list-cell:filled:hover { 
-    -fx-background-color: #00f; /* 2 */
-    -fx-text-fill: white; /* 5 */
+
+.jfx-list-cell { 
+	-fx-background-color: transparent;
 }
+
 
 /* Styling the slider thumb */
 .jfx-slider > .thumb {

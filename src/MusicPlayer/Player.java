@@ -141,7 +141,6 @@ public class Player {
 		mediaPlayer.setVolume(volume/100);
 	}
 	private void handleMetadata(String key, Object value) {
-		System.out.println(key+ "-" + value.toString());
 
 		if(key.equals("title")) {
 			song.setTitle(value.toString());
