@@ -16,7 +16,6 @@ public class Main extends Application {
     private double xOffset = 0;
     private double yOffset = 0;
 
-
 	@Override
 	public void init() {
 		I18N.setSupportedLocales(Locale.ENGLISH, new Locale("mx", "es"));

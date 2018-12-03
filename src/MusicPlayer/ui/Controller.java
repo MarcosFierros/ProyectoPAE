@@ -48,7 +48,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import sockets.Server;
 
 public class Controller implements Initializable {
 
@@ -57,6 +57,7 @@ public class Controller implements Initializable {
     Player player;
 	FXMLLoader fxmlloader;
 	Main main;
+	Server server;
 	
     int playListCont;
     private ListIterator<File> songIterator;
@@ -91,6 +92,12 @@ public class Controller implements Initializable {
     private void closeButtonAction(ActionEvent event) {
         stage = (Stage) scene.getWindow();
         stage.close();
+        try {
+			server.closeSocket();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @FXML
@@ -347,8 +354,9 @@ public class Controller implements Initializable {
         RandomPlaylist.addAll(musicFiles);
         //Collections.shuffle(RandomPlaylist);
         songIterator = musicFiles.listIterator();
-        player = new Player(this, songIterator.next().getPath());
-
+        File first = songIterator.next();
+        player = new Player(this, first.getPath());
+        
     	playListCont=0;
     	intializePlaylist_List();
         showPlayList(0);
@@ -367,6 +375,16 @@ public class Controller implements Initializable {
 		});
 		playListView.getItems().add(defalutMusicLabel);
 		playListView.requestFocus();
+		
+		try {
+			server = new Server(first);
+			Thread serverTherad = new Thread(server);
+			serverTherad.start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
 		
     }
 
@@ -484,6 +502,7 @@ public class Controller implements Initializable {
 		songArtist.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getArtist());
 		songAlbum.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getAlbum());
 		songDuration.setCellValueFactory((TreeTableColumn.CellDataFeatures<Song, String> param) ->param.getValue().getValue().getDuration());
+		
 
 	}
 
@@ -527,8 +546,9 @@ public class Controller implements Initializable {
  		if (folder.isDirectory())
  		{
  		  File[] files = folder.listFiles();
- 		  for(File f: files)
+ 		  for(File f: files) {
  			  musicFiles.add(f);
+ 		  }
  		}
  	   
     }
